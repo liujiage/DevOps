@@ -1,0 +1,24 @@
+#log {
+            width: 98%;
+            padding: 1%;
+            color: white;
+            font-size: 100%;
+            height: 90%;
+            background-color: black;
+        }
+#log-memory {
+            width: 98%;
+            padding: 1%;
+            color: white;
+            font-size: 100%;
+            height: 85%;
+            background-color: black;
+        }
+#log-history {
+            width: 98%;
+            padding: 1%;
+            color: white;
+            font-size: 100%;
+            height: 85%;
+            background-color: black;
+        }

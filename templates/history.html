@@ -1,0 +1,64 @@
+<!doctype html>
+<title>History</title>
+<head>
+    <!-- confirm window -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='bundled.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='jquery-confirm.min.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='bundled.js') }}"></script>
+	<link rel="stylesheet" href="{{ url_for('static', filename='jquery-ui.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dataTables.jqueryui.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='scroller.jqueryui.min.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='jquery-3.5.1.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='jquery.dataTables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='dataTables.jqueryui.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='dataTables.scroller.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/edit-table.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='jquery.editable.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='jquery-ui-latest.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='jquery.layout-latest.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='jquery-confirm.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/table-image.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='js/history.js') }}"></script>
+
+</head>
+<script type="text/javascript">
+      $SCRIPT_ROOT = {{ request.script_root|tojson }};
+       $(document).ready(function() {
+            $('#history').DataTable({order:[[1,"desc"]]});
+       });
+</script>
+<body id="mainBody">
+    <table id="history" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Deploy Time</th>
+                    <th>Operation User</th>
+                    <th>Service Name</th>
+                    <th>Version No</th>
+                    <th>Deploy Node</th>
+                    <th>Review</th>
+                </tr>
+            </thead>
+            <tbody>
+            {%  for record in records %}
+                  <tr id="{{ record.id }}" value="{{ record.id }}">
+                      <td>{{ record.createTime }}</td>
+                      <td>{{ record.userName }}</td>
+                      <td>{{ record.serviceName }}</td>
+                      <td>{{ record.version }}</td>
+                      <td>{{ record.nodes }}</td>
+                      <td width="160px">
+                        <img src="{{ url_for('static', filename='images/test-passed-32.png') }}" class="image"
+                             onclick="openDetail($('#{{ record.id }}').attr('value'));" title="Checking deploy detail full log"/> |
+                        <img src="{{ url_for('static', filename='images/web-design-32.png') }}" class="image"
+                             onclick="openWeb($('#{{ record.id }}').attr('value'));" title="Checking the web server in a new web browser" /> |
+                        <img src="{{ url_for('static', filename='images/system-task-32.png') }}" class="image"
+                             onclick="openTail($('#{{ record.id }}').attr('value'));" title="Tracing the log real-time"/> |
+                        <img src="{{ url_for('static', filename='images/reset-24.png') }}" class="image"
+                             onclick="redeploy($('#{{ record.id }}').attr('value'));" title="Recovering the deployment to before"/>
+                      </td>
+                  </tr>
+               {% endfor %}
+            </tbody>
+        </table>
+</body>

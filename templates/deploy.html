@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Deploy</title>
+	<!-- websocket -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"
+			integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA=="
+			crossorigin="anonymous"></script>
+	<!-- confirm window -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='bundled.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='jquery-confirm.min.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='bundled.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='jquery-confirm.min.js') }}"></script>
+	<!-- tree -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='jstree.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='layout-default.css') }}">
+	<script type="text/javascript" src="{{ url_for('static', filename='jquery-latest.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='jquery-ui-latest.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='jquery.layout-latest.js') }}"></script>
+	<!-- confirm window -->
+	<script type="text/javascript" src="{{ url_for('static', filename='jquery-confirm.min.js') }}"></script>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/edit-table.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='jquery.editable.min.js') }}"></script>
+	<script type="text/javascript">
+	var myLayout;
+	$(document).ready(function(){
+		myLayout = $('#mainBody').layout({
+			west__minSize: 240
+		});
+ 	});
+	</script>
+</head>
+<body id="mainBody">
+	<h1>Deploy Pre-release environment</h1>
+	<script>
+      $SCRIPT_ROOT = {{ request.script_root|tojson }};
+    </script>
+	<div class="ui-layout-west">
+	     <button id="evts_button" class="btn btn-primary">Deploy Service</button> <h4 id="deployStatus"></h4>
+			<script src="{{ url_for('static', filename='jstree.min.js') }}"></script>
+			<div id="html" class="demo">
+				<ul>
+					{% for key, value in services.items() %}
+					<li>{{ key }}
+						<ul>
+							{% for item in value %}
+							   <li>{{ item.viewName }}</li>
+							{% endfor %}
+						</ul>
+					</li>
+					{% endfor %}
+				</ul>
+			</div>
+		  <script src="{{ url_for('static', filename='js/common.js') }}"></script>
+          <script src="{{ url_for('static', filename='js/deploy.js') }}"></script>
+    </div>
+   <div class="ui-layout-center">
+         <button id="clear_button" class="btn btn-primary" onclick="$('#log').val('');">Clear</button>
+	      <hr />
+	     <em>Console result:</em><br />
+	     <textarea id="log"></textarea>
+   </div>
+</body>
+</html>
